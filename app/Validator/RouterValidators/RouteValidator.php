@@ -25,11 +25,13 @@ class RouteValidator implements IRouterValidator
     $this->routeHandlerValidator = $routeHandlerValidator;
   }
 
-  public function validate(mixed $routes): void
+  public function validate(mixed $routes): bool
   {
     foreach($routes as $route) {
       $this->validateDeclaredRoute($route);
     }
+
+    return true;
   }
 
   public function validateDeclaredRoute(array $route): void

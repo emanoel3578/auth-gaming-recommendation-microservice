@@ -2,7 +2,7 @@
 
 namespace App\Routes\Api;
 
-class Routes
+class DeclaredRoutes
 {
   public function getRoutes(): array
   {

@@ -1,11 +1,13 @@
 <?php
 
 use App\Bootstrap\App;
-use App\Factories\RouterFactory;
+use App\Factories\RouterDispatcherFactory;
+use App\Factories\RouterResolverFactory;
 
-require __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
-$router = RouterFactory::make();
-$app = new App($router);
+$routerDispatcher = RouterDispatcherFactory::make();
+$routerResolver = RouterResolverFactory::make();
+$app = new App($routerDispatcher, $routerResolver);
 
 return $app;

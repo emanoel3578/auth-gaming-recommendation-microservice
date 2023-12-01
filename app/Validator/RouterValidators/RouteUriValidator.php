@@ -6,8 +6,9 @@ use App\Validator\Interfaces\IRouterUriValidator;
 
 class RouteUriValidator implements IRouterUriValidator
 {
-  public function validate(mixed $data): void
+  public function validate(mixed $data): bool
   {
     // Implement Future validation rule
+    return true;
   }
 }

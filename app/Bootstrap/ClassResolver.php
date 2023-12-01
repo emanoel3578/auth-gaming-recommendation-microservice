@@ -2,28 +2,26 @@
 
 namespace App\Bootstrap;
 
+use App\Services\Interfaces\IHandlerExtractorService;
+
 class ClassResolver
 {
-  protected const CLASS_NAME_INDEX = 0;
-  protected const HANDLER_METHOD_INDEX = 1;
-  public final const CONTROLLERS_NAMESPACE = 'App\Controllers\\';
-
-  public function __construct(string $className, array $parameters)
+  protected IHandlerExtractorService $handlerExtractorService;
+  
+  public function __construct(IHandlerExtractorService $handlerExtractorService)
   {
-    return $this->resolveClassName($className, $parameters);
+    $this->handlerExtractorService = $handlerExtractorService;
   }
 
   public function resolveClassName(string $handler, array $parameters): mixed
   {
-    if (str_contains($handler, '@')) {
-      $classNameAndMethod = explode('@', $handler);
-      $className = self::CONTROLLERS_NAMESPACE . $classNameAndMethod[self::CLASS_NAME_INDEX];
-      $handlerMethod = $classNameAndMethod[self::HANDLER_METHOD_INDEX];
+    $handlerData = $this->handlerExtractorService->extractHandlerData($handler);
+    $className = $handlerData['className'];
 
-      return (new $className)->$handlerMethod($parameters);
+    if (!empty($handlerData['method'])) {
+      return (new $className)->$handlerData['method']($parameters);
     }
 
-    $className = self::CONTROLLERS_NAMESPACE . $handler;
     return new $className($parameters);
   }
 }

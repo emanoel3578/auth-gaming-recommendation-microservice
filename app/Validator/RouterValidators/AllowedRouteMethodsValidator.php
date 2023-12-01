@@ -17,10 +17,12 @@ class AllowedRouteMethodsValidator implements IAllowedRouterMethodsValidator
     'OPTIONS'
   ];
 
-  public function validate(mixed $routeMethod): void
+  public function validate(mixed $routeMethod): bool
   {
     if (!in_array($routeMethod, $this->allowedMethods)) {
       throw new NotAllowedMethodRouteException();
     }
+
+    return true;
   }
 }

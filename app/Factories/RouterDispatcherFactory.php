@@ -3,25 +3,25 @@
 namespace App\Factories;
 
 use App\Adapters\RouterAdapter;
-use App\Bootstrap\AppFactory\Router;
+use App\Bootstrap\RouterDispatcher;
 use App\Factories\Interfaces\IFactory;
-use App\Routes\Api\Routes;
+use App\Routes\Api\DeclaredRoutes;
 use App\Validator\RouterValidators\AllowedRouteMethodsValidator;
-use App\Validator\RouterValidators\RouteHandlerValidator;
 use App\Validator\RouterValidators\RouteUriValidator;
 use App\Validator\RouterValidators\RouteValidator;
 
-class RouterFactory implements IFactory
+class RouterDispatcherFactory implements IFactory
 {
   public static function make($data = []): mixed
   {
     $routeAdapter = new RouterAdapter();
-    $routes = new Routes();
+    $declaredRoutes = new DeclaredRoutes();
     $routeMethodsValidator = new AllowedRouteMethodsValidator;
     $routeUriValidator = new RouteUriValidator;
-    $routeHandlerValidator = new RouteHandlerValidator;
+    $routeHandlerValidator = RouteHandlerValidatorFactory::make();
     $routeValidator = new RouteValidator($routeMethodsValidator, $routeUriValidator, $routeHandlerValidator);
+    $routeResolver = RouterResolverFactory::make();
     
-    return new Router($routeAdapter, $routes, $routeValidator);
+    return new RouterDispatcher($routeAdapter, $declaredRoutes, $routeValidator, $routeResolver);
   }
 }

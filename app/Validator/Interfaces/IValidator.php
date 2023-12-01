@@ -4,5 +4,5 @@ namespace App\Validator\Interfaces;
 
 interface IValidator
 {
-  public function validate(mixed $data): void;
+  public function validate(mixed $data): bool;
 }
