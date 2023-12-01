@@ -8,7 +8,7 @@ use App\Services\Interfaces\IClassLookerService;
 use App\Services\Interfaces\IHandlerExtractorService;
 use App\Validator\Interfaces\IRouterHandlerValidator;
 
-class RouteHandlerValidator implements IRouterHandlerValidator
+class RouteClassFinderHandlerValidator implements IRouterHandlerValidator
 {
   protected IHandlerExtractorService $handlerExtractorService;
   protected IClassLookerService $classLookerService;

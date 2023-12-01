@@ -8,10 +8,10 @@ use App\Services\Files\FileFinder;
 use App\Services\Files\MethodFinder;
 use App\Services\Route\ClassLookerService;
 use App\Services\Route\HandlerExtractorService;
-use App\Validator\RouterValidators\RouteHandlerValidator;
+use App\Validator\RouterValidators\RouteClassFinderHandlerValidator;
 use Symfony\Component\Finder\Finder;
 
-class RouteHandlerValidatorFactory implements IFactory
+class RouteClassFinderHandlerValidatorFactory implements IFactory
 {
   public static function make($context = []): mixed
   {
@@ -21,6 +21,6 @@ class RouteHandlerValidatorFactory implements IFactory
     $methodFinder = new MethodFinder($fileManagerAdapter);
     $classLookerService = new ClassLookerService($fileFinder, $methodFinder);
     $handlerExtactor = new HandlerExtractorService();
-    return new RouteHandlerValidator($handlerExtactor, $classLookerService, $context);
+    return new RouteClassFinderHandlerValidator($handlerExtactor, $classLookerService, $context);
   }
 }

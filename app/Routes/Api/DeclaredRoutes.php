@@ -2,6 +2,8 @@
 
 namespace App\Routes\Api;
 
+use App\Controllers\TestingController;
+
 class DeclaredRoutes
 {
   public function getRoutes(): array
@@ -10,12 +12,12 @@ class DeclaredRoutes
       [
         'method' => 'GET',
         'uri' => '/test',
-        'handler' => 'TestingController'
+        'handler' => [TestingController::class]
       ],
       [
         'method' => 'GET',
         'uri' => '/test-handler',
-        'handler' => 'TestingController@callHandler'
+        'handler' => [TestingController::class, 'callHandler']
       ],
     ];
   }
