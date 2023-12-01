@@ -34,7 +34,7 @@ class Router
   public function getAppRoutes(): array
   {
     $routes = $this->routes->getRoutes();
-    $this->routerValidator->validateDeclaredRoutes($routes);
+    $this->routerValidator->validate($routes);
     return $routes;
   }
 

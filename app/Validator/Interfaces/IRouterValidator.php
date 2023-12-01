@@ -2,7 +2,6 @@
 
 namespace App\Validator\Interfaces;
 
-interface IRouterValidator
+interface IRouterValidator extends IValidator
 {
-  public function validateDeclaredRoutes(array $routes): void;
 }

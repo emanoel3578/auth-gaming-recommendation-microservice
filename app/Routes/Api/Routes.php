@@ -10,12 +10,12 @@ class Routes
       [
         'method' => 'GET',
         'uri' => '/test',
-        'handler' => 'Testing'
+        'handler' => 'TestingController'
       ],
       [
         'method' => 'GET',
         'uri' => '/test-handler',
-        'handler' => 'Testing@testing'
+        'handler' => 'TestingController@callHandler'
       ],
     ];
   }

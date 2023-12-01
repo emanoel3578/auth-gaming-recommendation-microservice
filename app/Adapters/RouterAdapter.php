@@ -6,7 +6,6 @@ use App\Adapters\Interfaces\IRouterAdapter;
 use FastRoute\RouteCollector;
 
 use function FastRoute\simpleDispatcher;
-
 class RouterAdapter implements IRouterAdapter
 {
   public function createRoutes(array $routes): array
