@@ -2,14 +2,12 @@
 
 namespace App\Bootstrap;
 
-use App\Bootstrap\Interfaces\IRouterDispatcher;
-use App\Bootstrap\Interfaces\IRouterResolver;
+use App\Bootstrap\Interfaces\IHttpRouterManager;
 
 class App
 {
-  public function __construct(IRouterDispatcher $routerDispatcher, IRouterResolver $routeResolver)
+  public function __construct(IHttpRouterManager $httpRouterManager)
   {
-    $appRoutes = $routerDispatcher->createAppRoutes();
-    $routeResolver->resolveRoute($appRoutes);
+    $httpRouterManager->handleRouting();
   }
 }

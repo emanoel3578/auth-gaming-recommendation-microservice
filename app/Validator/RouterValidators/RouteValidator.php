@@ -2,6 +2,7 @@
 
 namespace App\Validator\RouterValidators;
 
+use App\Exceptions\DuplicatedRoutesDeclared;
 use App\Exceptions\RouteMissingDeclaredInformationException;
 use App\Validator\Interfaces\IAllowedRouterMethodsValidator;
 use App\Validator\Interfaces\IRouterHandlerValidator;
@@ -30,18 +31,34 @@ class RouteValidator implements IRouterValidator
     foreach($routes as $route) {
       $this->validateDeclaredRoute($route);
     }
-
+    
+    $this->validateDuplicatedDeclaredRoutes($routes);
     return true;
   }
 
-  public function validateDeclaredRoute(array $route): void
+  private function validateDeclaredRoute(array $route): void
+  {
+    $this->validateDeclaredRouteEmptyFields($route);
+    $this->routeMethodsValidator->validate($route['method']);
+    $this->routeUriValidator->validate($route['uri']);
+    $this->routeHandlerValidator->validate($route['handler']);
+  }
+
+  private function validateDeclaredRouteEmptyFields(array $route): void
   {
     if (empty($route['method']) || empty($route['uri']) || empty($route['handler'])) {
       throw new RouteMissingDeclaredInformationException();
     }
+  }
 
-    $this->routeMethodsValidator->validate($route['method']);
-    $this->routeUriValidator->validate($route['uri']);
-    $this->routeHandlerValidator->validate($route['handler']);
+  private function validateDuplicatedDeclaredRoutes(array $declaredRoutes): void
+  {
+    $uris = array_map(function($route) {
+      return str_replace('/', '', $route['uri']);
+    }, $declaredRoutes);
+
+    if (sizeof(array_unique($uris)) != sizeof($declaredRoutes)) {
+      throw new DuplicatedRoutesDeclared();
+    }
   }
 }

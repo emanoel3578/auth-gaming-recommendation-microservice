@@ -2,9 +2,11 @@
 
 namespace App\Bootstrap;
 
-use App\Bootstrap\ClassResolver;
 use App\Bootstrap\Interfaces\IRouterResolver;
-use Exception;
+use App\Bootstrap\Router\ClassResolver;
+use App\Exceptions\RouteNotFoundException;
+use App\Exceptions\RouteVerbNotAllowed;
+use App\Formatters\Router\RouteDispatchedInfoFormatter;
 use FastRoute\Dispatcher;
 
 class RouterResolver implements IRouterResolver
@@ -15,7 +17,8 @@ class RouterResolver implements IRouterResolver
 
   public final const ROUTE_RESOLUTION_INDEX = 0;
   public final const HANDLER_INDEX = 1;
-  public final const PARAMETERS_INDEX = 2;
+  public final const METHOD_HANDLER_INDEX = 1;
+  public final const PARAMETERS_INDEX = 3;
 
   private ClassResolver $classResolver;
 
@@ -26,21 +29,26 @@ class RouterResolver implements IRouterResolver
 
   public function resolveRoute(array $routeInfo): mixed
   {
-    switch ($routeInfo[self::ROUTE_RESOLUTION_INDEX]) {
+    if (empty($routeInfo)) {
+      throw new RouteNotFoundException();
+    }
+
+    switch ($routeInfo[RouteDispatchedInfoFormatter::STATUS_INDEX_FORMATTED]) {
       case self::ROUTE_NOT_FOUND:
-        throw new Exception('Route not found', 404);
+        throw new RouteNotFoundException();
         break;
       case self::METHOD_NOT_ALLOWED:
-        throw new Exception("Route verb not allowed", 402);
+        throw new RouteVerbNotAllowed();
         break;
       case self::ROUTE_FOUND:
         return $this->classResolver->resolveClassName(
-          $routeInfo[self::HANDLER_INDEX],
-          $routeInfo[self::PARAMETERS_INDEX]
+          $routeInfo[RouteDispatchedInfoFormatter::CLASS_NAME_HANDLER_INDEX_FORMATTED],
+          $routeInfo[RouteDispatchedInfoFormatter::METHOD_HANDLER_INDEX_FORMATTED],
+          $routeInfo[RouteDispatchedInfoFormatter::PARAMETERS_INDEX_FORMATTED]
         );
         break;
       default:
-        throw new Exception('Route not found', 404);
+        throw new RouteNotFoundException();
         break;
     }
   }

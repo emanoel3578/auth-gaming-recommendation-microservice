@@ -9,7 +9,7 @@ use App\Validator\Interfaces\IRouterUriValidator;
 
 class RouteUriValidator implements IRouterUriValidator
 {
-  private const MATCHES_EVERY_SPECIAL_CHARACTER_BUT_FOWARD_SLASH = "/[!@°²?₢ª#$%^&*()_+\-=\[\]{};':\"\\\\|,.<>?]/";
+  private const MATCHES_EVERY_SPECIAL_CHARACTER_BUT_FOWARD_SLASH = "/[!@°²?₢ª#$%^&*()_+\=[\]{};':\"\\|,.<>?]/";
   
   public function validate(mixed $uri): bool
   {

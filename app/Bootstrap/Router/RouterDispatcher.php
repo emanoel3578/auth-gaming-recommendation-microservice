@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Bootstrap;
+namespace App\Bootstrap\Router;
 
 use App\Adapters\Interfaces\IRouterAdapter;
 use App\Bootstrap\Interfaces\IRouterDispatcher;
@@ -16,13 +16,15 @@ class RouterDispatcher implements IRouterDispatcher
   protected IRouterValidator $routerValidator;
   protected IRouterResolver $routerResolver;
   protected IFormatter $routeHandlerFormatter;
+  protected IFormatter $routeDispatchedInfoFormatter;
 
   public function __construct(
     IRouterAdapter $routerAdapter,
     DeclaredRoutes $declaredRoutes,
     IRouterValidator $routerValidator,
     IRouterResolver $routerResolver,
-    IFormatter $routeHandlerFormatter
+    IFormatter $routeHandlerFormatter,
+    IFormatter $routeDispatchedInfoFormatter
     )
   {
     $this->routerAdapter = $routerAdapter;
@@ -30,11 +32,13 @@ class RouterDispatcher implements IRouterDispatcher
     $this->routerValidator = $routerValidator;
     $this->routerResolver = $routerResolver;
     $this->routeHandlerFormatter = $routeHandlerFormatter;
+    $this->routeDispatchedInfoFormatter = $routeDispatchedInfoFormatter;
   }
 
   public function createAppRoutes(): array
   {
-    return $this->routerAdapter->createRoutes($this->getAppRoutes());
+    $createdRoutes = $this->routerAdapter->createRoutes($this->getAppRoutes());
+    return $this->routeDispatchedInfoFormatter->format($createdRoutes);
   }
 
   private function getAppRoutes(): array

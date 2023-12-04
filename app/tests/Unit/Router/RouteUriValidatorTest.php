@@ -43,6 +43,12 @@ class RouteUriValidatorTest extends TestCase
     $this->assertTrue($result);
   }
 
+  public function test_should_return_true_for_uri_with_hyphen()
+  {
+    $result = $this->sut->validate('/test-with-multiple-hyphen');
+    $this->assertTrue($result);
+  }
+
   public static function invalidTypes(): array
   {
     return [

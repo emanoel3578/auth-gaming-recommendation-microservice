@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         cacheDirectory=".phpunit.cache"
+         cacheResult="true"
+         failOnRisky="true"
+         failOnWarning="true">
+    <testsuites>
+        <testsuite name="default">
+            <directory>./app/tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage includeUncoveredFiles="true" cacheDirectory="./tests/coverage/cache">
+        <report>
+            <text outputFile="php://stdout" showUncoveredFiles="false" showOnlySumma1ry="false"/>
+        </report>
+        <include>
+            <directory suffix=".php">./app</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">./app/tests</directory>
+            <directory suffix=".php">./app/Routes/Api</directory>
+        </exclude>
+    </coverage>
+</phpunit>

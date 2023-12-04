@@ -2,14 +2,14 @@
 
 namespace App\Factories;
 
-use App\Bootstrap\ClassResolver;
+use App\Bootstrap\Router\ClassResolver;
 use App\Bootstrap\RouterResolver;
-use App\Factories\Interfaces\IFactory;
+use App\Factories\Interfaces\IRouterResolverFactory;
 use App\Services\Route\HandlerExtractorService;
 
-class RouterResolverFactory implements IFactory
+class RouterResolverFactory implements IRouterResolverFactory
 {
-  public static function make($data = []): mixed
+  public static function make(): RouterResolver
   {
     $handlerExtractorService = new HandlerExtractorService;
     $classResolver = new ClassResolver($handlerExtractorService);
