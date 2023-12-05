@@ -14,7 +14,7 @@
 
     <coverage includeUncoveredFiles="true" cacheDirectory="./tests/coverage/cache">
         <report>
-            <text outputFile="php://stdout" showUncoveredFiles="false" showOnlySumma1ry="false"/>
+            <text outputFile="php://stdout"/>
         </report>
         <include>
             <directory suffix=".php">./app</directory>

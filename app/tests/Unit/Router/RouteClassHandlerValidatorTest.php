@@ -1,7 +1,7 @@
 <?php
 
-use App\Controllers\TestingController;
 use App\Exceptions\GivenHandlerClassDoesntExistException;
+use App\Exceptions\GivenMethodNotFoundInHandlerClassException;
 use App\Exceptions\RouteHandlerIsNotAValidClass;
 use App\Validator\Interfaces\IRouterHandlerValidator;
 use App\Validator\RouterValidators\RouteClassHandlerValidator;
@@ -24,6 +24,23 @@ class RouteClassHandlerValidatorTest extends TestCase
   {
     $this->expectException($expectedException);
 
+    $this->sut->validate($className);
+  }
+
+  public function tests_should_throw_exception_if_handler_class_doenst_exist()
+  {
+    $className = ['notFoundClass'];
+    $this->expectException(GivenHandlerClassDoesntExistException::class);
+
+    $this->sut->validate($className);
+  }
+
+  public function test_should_throw_exception_when_handler_method_not_found_in_found_handler_class()
+  {
+    $newClass = new class() {};
+    $className = [$newClass::class, 'notFoundHandlerMethod'];
+
+    $this->expectException(GivenMethodNotFoundInHandlerClassException::class);
     $this->sut->validate($className);
   }
 
