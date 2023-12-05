@@ -28,7 +28,8 @@ class RouteDispatchedInfoFormatter implements IFormatter
       self::STATUS_INDEX_FORMATTED => $dispachedRouteInfoArr[self::STATUS_INDEX],
       self::CLASS_NAME_HANDLER_INDEX_FORMATTED =>$handlerArr[self::CLASS_NAME_INDEX],
       self::METHOD_HANDLER_INDEX_FORMATTED => $methodHandler,
-      self::PARAMETERS_INDEX_FORMATTED => [$dispachedRouteInfoArr[self::PARAMETERS_INDEX]]
+      self::PARAMETERS_INDEX_FORMATTED => !empty($dispachedRouteInfoArr[self::PARAMETERS_INDEX])
+      ? [$dispachedRouteInfoArr[self::PARAMETERS_INDEX]] : []
     ];
   }
 }
